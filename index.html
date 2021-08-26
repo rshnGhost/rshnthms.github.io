@@ -42,27 +42,13 @@
 		today = dd + '_' + mm + '_' + yyyy;
 		document.title = document.title+"_"+today;
 		
-		const isIE11 = navigator.userAgent.indexOf("Trident/") > -1;
-		document.addEventListener("keydown", keyDownHandler, isIE11? {capture: true}: true);
-		function keyDownHandler(event) {
-			if ((event.ctrlKey || event.metaKey) && event.keyCode === 80) {
-				if (isIE11) {
-					const end = Date.now() + 4000; // block the main thread for 4s.
-					while (Date.now() < end) {
-					}
-				}
-				event.preventDefault();
-				event.stopImmediatePropagation();
-				console.log("Ctrl+P shortcut detected");
-				let person = prompt("Please Enter Phone Number or Cancel", "");
-				pNo = document.getElementById("phoneNo");
-				if(/^([0-9]{10,})$/.test(person)){
-					pNo.innerText = person
-				}
-				console.log("Sending Ctrl+P for printing");
-				window.print();
+		window.addEventListener("beforeprint", function(event) {
+			let phone = prompt("Please Enter Phone Number or Cancel", "814XXX1434");
+			pNo = document.getElementById("phoneNo");
+			if(/^([0-9]{10,})$/.test(phone)){
+				pNo.innerText = phone
 			}
-		}
+		});
 	</script>
   </head>
   <body>
