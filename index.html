@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -40,8 +39,30 @@
 		var dd = String(today.getDate()).padStart(2, '0');
 		var mm = String(today.getMonth() + 1).padStart(2, '0');
 		var yyyy = today.getFullYear();
-		today = dd + '-' + mm + '-' + yyyy;
-		document.title = document.title+"-"+today;
+		today = dd + '_' + mm + '_' + yyyy;
+		document.title = document.title+"_"+today;
+		
+		const isIE11 = navigator.userAgent.indexOf("Trident/") > -1;
+		document.addEventListener("keydown", keyDownHandler, isIE11? {capture: true}: true);
+		function keyDownHandler(event) {
+			if ((event.ctrlKey || event.metaKey) && event.keyCode === 80) {
+				if (isIE11) {
+					const end = Date.now() + 4000; // block the main thread for 4s.
+					while (Date.now() < end) {
+					}
+				}
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				console.log("Ctrl+P shortcut detected");
+				let person = prompt("Please Enter Phone Number or Cancel", "");
+				pNo = document.getElementById("phoneNo");
+				if(/^([0-9]{10,})$/.test(person)){
+					pNo.innerText = person
+				}
+				console.log("Sending Ctrl+P for printing");
+				window.print();
+			}
+		}
 	</script>
   </head>
   <body>
@@ -101,7 +122,7 @@
     </div>
     <div class="col-4 float-right">
       <div class="b"><i class="fas fa-envelope"></i> <a style="text-decoration:none" href="mailto:rshn.thomas1@gmail.com">rshn.thomas1@gmail.com</a></div>
-      <div class="b"><i class="fas fa-phone fa-flip-horizontal"></i> 814XXX1434</div>
+      <div class="b"><i class="fas fa-phone fa-flip-horizontal"></i> <span id="phoneNo"> 814XXX1434</span></div>
       <div class="b"><i class="fas fa-map-marker-alt"></i> Bangalore, India</div>
       <div class="b"><i class="fab fa-github"></i> <a style="text-decoration:none" href="https://github.com/rshnGhost" target="_blank">github.com/rshnGhost</a></div>
 	  <div class="b"><i class="fas fa-portrait"></i> <a style="text-decoration:none" href="https://rshnthms.github.io/" target="_blank">rshnthms.github.io</a></div>	  
